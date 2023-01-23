@@ -1,0 +1,11 @@
+body {
+  background-color: burlywood;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+  height: 50%;
+  image-rendering: pixelated;
+}

@@ -1,0 +1,13 @@
+{
+  "name": "doom_fire",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "yarn parcel src/index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
