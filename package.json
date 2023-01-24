@@ -5,7 +5,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "yarn parcel src/index.html"
+    "predev": "yarn install",
+    "dev": "yarn parcel src/index.html",
+    "clean": "rm -rf dist .parcel-cache"
   },
   "devDependencies": {
     "parcel": "^2.8.3"
