@@ -1,11 +1,13 @@
 body {
-  background-color: burlywood;
   margin: 0;
+  padding: 0;
+  min-height: 600px;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
-canvas {
-  height: 50%;
+#canvas {
+  height: 100%;
   image-rendering: pixelated;
 }
