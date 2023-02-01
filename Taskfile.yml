@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  rust:
+    taskfile: ./rust
+    dir: ./rust
+
+tasks:
+
+  clean_wasm:
+    - rm -rf src/wasm
+
+  build:
+    deps: [ clean_wasm ]
+    cmds:
+      - task rust:build
+      - cp -r rust/pkg/ ./src/wasm/
+
+  start:
+    - task build
+    - yarn dev

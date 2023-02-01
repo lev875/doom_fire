@@ -1,0 +1,13 @@
+[package]
+name = "doom_fire"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+getrandom = { version = "0.2.8", features = ["js"] }
+rand = "0.8.4"
+js-sys = "0.3.60"
+wasm-bindgen = "0.2.83"

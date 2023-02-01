@@ -1,0 +1,42 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+
+  build:
+    cmds:
+      - cargo test
+      - cargo fmt
+      - wasm-pack build --target web
+
+  generate_coverage:
+    cmds:
+      - cargo test
+      - >
+        grcov ./coverage
+        --binary-path ./target/debug/deps/
+        --source-dir .
+        --output-type html
+        --branch
+        --ignore-not-existing
+        --ignore '../*'
+        --ignore "/*"
+        --output-path ./coverage/html
+    env:
+      CARGO_INCREMENTAL: '0'
+      RUSTFLAGS: '-Cinstrument-coverage'
+      LLVM_PROFILE_FILE: ./coverage/cargo-test-%p-%m.profraw
+
+  clean_coverage: rm -rf ./coverage
+
+  coverage:
+    deps:
+      - clean_coverage
+      - generate_coverage
+    cmds: [ miniserve ./coverage/html ]
+
+  clean:
+    cmds: [ cargo clean ]
+    deps:
+      - clean_coverage
