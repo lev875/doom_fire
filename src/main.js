@@ -42,7 +42,7 @@ init(wasm).then(() => {
   const resize = () => {
     let newWidth = getWidth(height)
     canvas.width = newWidth
-    fire = new Fire(newWidth, height, true)
+    fire = new Fire(newWidth, height, fire.is_running)
   }
 
   window.addEventListener("resize", debounced(100)(resize))

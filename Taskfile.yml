@@ -12,12 +12,16 @@ tasks:
   clean_wasm:
     - rm -rf src/wasm
 
-  build:
+  build_wasm:
     deps: [ clean_wasm ]
     cmds:
       - task rust:build
       - cp -r rust/pkg/ ./src/wasm/
 
+  build:
+    - task build_wasm
+    - yarn build
+
   start:
-    - task build
+    - task build_wasm
     - yarn dev

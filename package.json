@@ -1,12 +1,13 @@
 {
   "name": "doom_fire",
   "version": "1.0.0",
-  "main": "src/main.js",
   "license": "MIT",
   "private": true,
   "scripts": {
     "predev": "yarn install",
     "dev": "yarn parcel src/index.html",
+    "prebuild": "yarn clean",
+    "build": "yarn parcel build src/index.html",
     "clean": "rm -rf dist .parcel-cache"
   },
   "devDependencies": {

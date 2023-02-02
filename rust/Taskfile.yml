@@ -8,8 +8,12 @@ tasks:
     - cargo test
     - cargo fmt
 
+  clean_wasm: rm -rf pkg
+
   build:
-    deps: [ test ]
+    deps:
+      - clean_wasm
+      - test
     cmds: [ wasm-pack build --target web ]
 
   generate_coverage:
@@ -41,4 +45,5 @@ tasks:
   clean:
     cmds: [ cargo clean ]
     deps:
+      - clean_wasm
       - clean_coverage
