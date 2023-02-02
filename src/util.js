@@ -15,3 +15,13 @@ export const cycle = arr => n => (
     }
   }
 )()
+
+export const debounced = delay => f => {
+  let timer
+  return () => {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(f, delay)
+  }
+}

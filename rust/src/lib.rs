@@ -24,12 +24,12 @@ pub struct Fire {
 #[wasm_bindgen]
 impl Fire {
     #[wasm_bindgen(constructor)]
-    pub fn new(width: u16, height: u16) -> Fire {
+    pub fn new(width: u16, height: u16, is_running: bool) -> Fire {
         Fire {
             width,
             height,
-            buffer: init_buffer(width, height),
-            is_running: true,
+            buffer: init_buffer(width, height, is_running),
+            is_running,
         }
     }
 
@@ -74,11 +74,12 @@ impl Fire {
     }
 }
 
-fn init_buffer(width: u16, height: u16) -> Buffer {
+fn init_buffer(width: u16, height: u16, is_running: bool) -> Buffer {
     if width < 1 || height < 1 {
         panic!("Invalid dimensions!")
     }
-    let first_row = vec![35; width as usize];
+    let init_pixel = if is_running { 35 } else { 0 };
+    let first_row = vec![init_pixel; width as usize];
     let black_row = vec![0; width as usize];
     let mut buffer = vec![first_row];
     buffer.append(&mut vec![black_row; (height - 1) as usize]);
@@ -143,7 +144,7 @@ mod test {
     #[test]
     fn init() {
         let [width, height] = [9, 10];
-        let buffer = init_buffer(width, height);
+        let buffer = init_buffer(width, height, true);
         assert_eq!(buffer.len(), height as usize);
         buffer
             .iter()
@@ -155,15 +156,29 @@ mod test {
     }
 
     #[test]
-    #[should_panic(expected = "Invalid dimensions!")]
-    fn invalid_height() {
-        init_buffer(1, 0);
+    fn init_stopped() {
+        let [width, height] = [9, 10];
+        let buffer = init_buffer(width, height, false);
+        assert_eq!(buffer.len(), height as usize);
+        buffer
+            .iter()
+            .for_each(|row| assert_eq!(row.len(), width as usize));
+        let first_row = buffer.first().unwrap();
+        first_row.iter().for_each(|&n| assert_eq!(n, 0));
+        let rest = buffer.iter().skip(1);
+        rest.for_each(|row| row.iter().for_each(|&n| assert_eq!(n, 0)));
     }
 
     #[test]
     #[should_panic(expected = "Invalid dimensions!")]
-    fn invalid_width() {
-        init_buffer(0, 1);
+    fn init_invalid_height() {
+        init_buffer(1, 0, false);
+    }
+
+    #[test]
+    #[should_panic(expected = "Invalid dimensions!")]
+    fn init_invalid_width() {
+        init_buffer(0, 1, false);
     }
 
     #[test]
@@ -227,7 +242,7 @@ mod test {
     #[test]
     fn tick_tock() {
         let [width, height] = [100, 6];
-        let mut buffer = init_buffer(width, height);
+        let mut buffer = init_buffer(width, height, true);
         let mut previous = buffer.clone();
         for _ in 1..10 {
             tick(&mut buffer, width);

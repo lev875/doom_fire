@@ -4,11 +4,13 @@ version: '3'
 
 tasks:
 
+  test:
+    - cargo test
+    - cargo fmt
+
   build:
-    cmds:
-      - cargo test
-      - cargo fmt
-      - wasm-pack build --target web
+    deps: [ test ]
+    cmds: [ wasm-pack build --target web ]
 
   generate_coverage:
     cmds:
