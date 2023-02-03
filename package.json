@@ -7,7 +7,7 @@
     "predev": "yarn install",
     "dev": "yarn parcel src/index.html",
     "prebuild": "yarn clean",
-    "build": "yarn parcel build src/index.html",
+    "build": "yarn parcel build src/index.html --public-url ./",
     "clean": "rm -rf dist .parcel-cache"
   },
   "devDependencies": {
